@@ -1,0 +1,51 @@
+@import "layout.css";
+/*
+    Colors and variables
+    In CSS you can also define variables, for reusing certain values.
+    - Try out using different color schemes by changing --color-one and --color-two
+    - Colors are defined here in RGBA value (🔴🟢🔵🪟)
+        - Combining red,green,blue values and alpha for transparency
+        - Example red: 255, green: 0, blue: 0 is red
+        - Usually you end up using Google: "orange in rgb" - tadaa 🎉
+   - Also play around with transparency values (0 - 1.0)
+ */
+.title {
+  color: var(--stripe-two);
+  background: var(--stripe-one);
+}
+
+.sidebar{
+  background: var(--stripe-one);
+}
+
+
+   /* Tooltip container */
+ .tooltip {
+   position: relative;
+   display: inline-block;
+ }
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 80px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -40px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+

@@ -1,0 +1,192 @@
+/* 📍 START HERE: First look at the HTML document and identify the central elements
+    - title
+    - lake
+    - animals
+    - sidebar
+    Also locate them on the actual webpage
+        - Since there is several breakpoints use the screen with between 800px and 1200px as reference
+        - Visually indicated by the flanking 🔍 in the title
+*/
+
+/* Let`s start slow, use class selectors to center text, set font-size */
+.title {
+    text-align: center;
+    font-size: 3em; /* Remember, relative unit to parent font-size */
+}
+
+/* Style all animals at once with '*' selector */
+.animal-grid * {
+    text-align: center; /* Try what happens if you delete this line */
+    font-size: 3vw; /* Bonus: Research what that unit is doing. Play around. */
+}
+
+/* RECAP: box-model
+    - Remember what is margin, padding and border about
+    - Give the sidebar some space for breathing ... */
+.sidebar {
+    margin: 1em;
+    padding: 0.5em 2.5em 0.5em 1.5em;
+}
+
+.title {
+    border: 5px solid transparent;
+    margin: 0.4em 30% 0.5em 30%; /* Percentage depends on parent width */
+    padding:0 0 0.5em 0;
+}
+.sidebar, .title {
+    border-radius: 30% 30%;  /* You can also round the edges of the border */
+}
+
+/* RECAP: Grid layout
+    - Grid allows you to define rows/columns and you arrange different elements on that grid
+*/
+/* We can also use the grid to overlay elements on top of each other, in our case
+    - title
+    - lake
+    - animals
+    - sidebar
+   We just define a grid with a single cell and assign all elements to the same cell
+*/
+.overlay-grid {
+    display: grid;
+    position: relative;
+    /*grid-auto-columns: 1fr;*/
+    grid-template-areas: "overlap";
+    /*max-height: 100vh; !* Span to 100% of the viewport *!*/
+}
+.title, .lake, .animal-grid, .sidebar {
+    grid-area: overlap;
+}
+
+/* Overwrite alignment in grid for single elements with *-self properties
+    - Try out deleting them and see what happens
+*/
+.title {
+    align-self: start; /* default is 'stretch' */
+}
+.sidebar{
+    justify-self: center; /* default is 'stretch' */
+    align-self: end; /* default is 'stretch' */
+}
+
+/* Ensure that lake and animals always use the full available screen height */
+.lake, .animal-grid {
+    max-height: 100vh;
+}
+
+/* Defines which element is in front and which in the back (positioning order) */
+.title {
+    z-index: 4;
+}
+.animal-grid {
+    z-index: 3;
+}
+
+.lake {
+    z-index: 2;
+}
+.sidebar {
+    z-index: 1;
+}
+
+/* Arrange animals on the grid */
+.animal-grid {
+    display: grid;
+    align-content: center;
+    grid-template-areas:
+      ".    .   .   .   .   .   .    x8  .    .    .   ."
+      ".    .   .   x12 .   .   .   .    x10   .    .   ."
+      ".    .   .   .   .   .   x5   .   .    .    .   ."
+      ".    .   x3  .   x9 .    .    x6  .    .    .   ."
+      ".    .   .   .   .    .   x4    x7 .   .    .   ."
+      ".    .   .   .   x11  .   .     .  .   .    .   ."
+      ".    .   .   x1  .   .   .    .   .    .    .   ."
+      ".    .   x2  .   .   .   .    .   .    .    .   ."
+
+;
+}
+.x1 {grid-area: x1}
+.x2 {grid-area: x2}
+.x3 {grid-area: x3}
+.x4 {grid-area: x4}
+.x5 {grid-area: x5}
+.x6 {grid-area: x6}
+.x7 {grid-area: x7}
+.x8 {grid-area: x8}
+.x9 {grid-area: x9}
+.x10 {grid-area: x10}
+.x11 {grid-area: x11}
+.x12 {grid-area: x12}
+
+/*
+RECAP: Responsiveness
+    - Use media queries to react to different screen dimensions
+    - with max-width, min-width (also height) you can define different ranges
+*/
+/* For the very, very small screens, keep only essential version (hiding elements) */
+@media (max-width: 550px){
+    .title, .sidebar {
+        display: none;
+    }
+}
+
+/* Smartphone screen, align elements differently on screen */
+@media (max-width: 800px){
+    .title{
+        align-self: end;
+    }
+
+    .sidebar{
+        justify-self: flex-start;
+        align-self: flex-start;
+    }
+}
+
+/* For normal desktop screens we want to make the lake a fixed size so it does not grow indefinitely.
+   This is how we create additional space for other UI elements. */
+@media (min-width: 890px){
+    .lake, .animal-grid {
+        width: 890px; /* Same as specifying max-with (no need for media-query) */
+    }
+    /* Since lake and animals are fixed now, you also have to hardcode the size of the animals. */
+    .animal-grid * {
+        font-size: 29px;
+    }
+}
+
+/* For wider desktop screens we arrange the sidebar next to our lake */
+@media (min-width: 1200px){
+    .overlay-grid {
+        grid-template-areas: "overlap overlap overlap sidebar sidebar";
+    }
+
+    .overlay-grid .sidebar{
+        justify-self: baseline;
+        align-self: center;
+        grid-area: sidebar;
+    }
+}
+
+/* For the curious, not important to understand this! */
+/* Define a range where we 'inject' a emoji in the title. */
+@media (min-width: 800px) and (max-width: 1200px){
+    .title:before {
+        content: "🔎  ";
+        white-space: pre;
+        font-size: 0.5em;
+        filter: opacity(50%);
+        text-shadow: 0 0 5px blue;
+    }
+
+    /* Small layout adjustment for later when we need to accommodate space for a sibling component */
+    .sidebar {
+        margin-bottom: 8em;
+    }
+}
+
+/* Small layout adjustment for later when we need to accommodate space for a sibling component. Negative margin 'pulls in' the element coming after the grid */
+@media not (550px <= width <= 800px) {
+    .overlay-grid {
+        margin-bottom: -10%;
+    }
+}

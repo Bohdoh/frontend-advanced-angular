@@ -1,0 +1,9 @@
+:host {
+  --stripe-one: rgba(246, 213, 92, 5.0);
+  --stripe-two: rgba(32, 99, 155, 1.0);
+}
+
+:host {
+  display: block;
+  background: repeating-linear-gradient(var(--stripe-one), var(--stripe-one) 50px, var(--stripe-two) 50px,var(--stripe-two) 100px);
+}
